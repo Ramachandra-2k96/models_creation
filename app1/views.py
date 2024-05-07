@@ -13,6 +13,8 @@ def Sign_up(request):
         if form.is_valid():
             form.save()# save the data in the databse
             return redirect('login')# redirect the new user to login page
+        else:
+            return render(request,'app1/index.html',{'form':form, 'error_message': form.errors.get('__all__')})
     else:
         form=UserCreationForm()
     return render(request,'app1/index.html',{'form':form})
@@ -32,7 +34,7 @@ def sign_in(request):
                 # Redirect to a success page after login
                 return redirect('success_page')  # Replace 'success_page' with the URL name of the success page,for now this page does not exist
         # If authentication fails or form is invalid, render the form with error message
-        return render(request, 'app1/index.html', {'form': form, 'error_message': 'Invalid username or password.'})
+        return render(request, 'app1/index.html', {'form': form, 'error_message': form.errors.get('__all__')})
     else:
         form = AuthenticationForm()
     return render(request, 'app1/index.html', {'form': form})
